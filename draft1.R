@@ -2,6 +2,7 @@
 # February 13, 2023
 
 library(tidyverse)
+library(glue)
 wheel <- c('DD', '7', 'BBB', 'BB', 'B', 'C', '0')
 payoffs <- c('DD' = 100, '7' = 80, 'BBB' = 40, 'BB' =25,
              'B' = 10, 'C' = 10, '0' = 0)
@@ -75,3 +76,31 @@ system.time(long())
 # 26.091   0.143      26.285 
 # First two columns are how many seconds elapsed the user and system execute the process of the call
 # Last column is how long R ran the expression
+
+# Play till broke
+play_till_broke <- function(starting_cash) {
+    
+    cash <- starting_cash
+    n <- 0
+    
+    while (cash > 0) {
+        cash <- cash - 1 + play()
+        n <- n + 1
+    }
+    n
+}
+
+average_broke <- vector(mode = 'numeric', length = 100)
+for (i in 1:length(average_broke)){
+    average_broke[i] = play_till_broke(100)
+}
+
+glue("On average it takes about {round(mean(average_broke),0)} trials to go broke with a starting cash of $100")
+
+
+
+
+
+
+
+
